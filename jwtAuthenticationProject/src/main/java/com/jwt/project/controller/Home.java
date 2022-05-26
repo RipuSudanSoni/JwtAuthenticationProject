@@ -13,5 +13,11 @@ public class Home {
 		text += "this page is not allow to unaauthorised User";
 		return text;
 	}
+	
+	@RequestMapping(value = "/rest/getUser", method = RequestMethod.GET)
+	public String getUser() {
+		String userText = "{\"user\" : \"Ripu\"}";
+		return userText;
+	}
 
 }

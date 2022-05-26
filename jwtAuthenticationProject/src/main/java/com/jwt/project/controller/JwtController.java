@@ -1,5 +1,7 @@
 package com.jwt.project.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,16 +17,18 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jwt.project.helper.JwtUtil;
 import com.jwt.project.model.JwtRequest;
 import com.jwt.project.model.JwtResponse;
-import com.jwt.project.services.CostomUserDetailsService;
+import com.jwt.project.services.CustomUserDetailsService;
 
 @RestController
 public class JwtController {
+	
+	Logger logger = LoggerFactory.getLogger(JwtController.class);
 	
 	@Autowired
 	private AuthenticationManager authenticationManager;
 	
 	@Autowired
-	private CostomUserDetailsService costomUserDetailsService;
+	private CustomUserDetailsService costomUserDetailsService;
 	
 	@Autowired
 	private JwtUtil jwtUtil;
@@ -47,7 +51,7 @@ public class JwtController {
 		UserDetails userDetails = this.costomUserDetailsService.loadUserByUsername(jwtRequest.getUserName());
 	 	
 		String token = this.jwtUtil.generateToken(userDetails);
-		System.out.println("JWT Token is :- "+token);
+		logger.info("JWT Token is :- {}",token);
 		
 		return new ResponseEntity(new JwtResponse(token), HttpStatus.OK);
 	}

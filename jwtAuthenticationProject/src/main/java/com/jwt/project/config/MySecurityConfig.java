@@ -11,16 +11,21 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.jwt.project.services.CostomUserDetailsService;
+import com.jwt.project.services.CustomUserDetailsService;
 
 
 @Configuration
 @EnableWebSecurity
 public class MySecurityConfig extends WebSecurityConfigurerAdapter{
 	
+	
 	@Autowired
-	private CostomUserDetailsService costomUserDetailsService;
+	private JwtAuthenticationFilter jwtFilter;
+	
+	@Autowired
+	private CustomUserDetailsService costomUserDetailsService;
 
 	
 	@Override
@@ -36,6 +41,8 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter{
 			.and()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		
+		
+		http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 		
 	}
 	

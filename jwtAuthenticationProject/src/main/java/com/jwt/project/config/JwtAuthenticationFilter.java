@@ -64,8 +64,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 				System.out.println("Token is not validated !!");
 			}
 			
-			filterChain.doFilter(request, response);
 		}
+		
+		filterChain.doFilter(request, response);
 		
 	}
 
